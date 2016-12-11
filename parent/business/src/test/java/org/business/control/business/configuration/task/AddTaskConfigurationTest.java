@@ -1,7 +1,7 @@
-package org.business.control.business.configuration.prestation;
+package org.business.control.business.configuration.task;
 
-import org.business.control.business.aggregate.configuration.business.ConfigurationPrestationAggregate;
-import org.business.control.business.command.configuration.prestation.AjouterPrestationCommand;
+import org.business.control.business.aggregate.configuration.business.TaskConfigurationAggregate;
+import org.business.control.business.command.configuration.task.AddTaskConfigurationCommand;
 import org.business.control.business.event.BusinessEvent;
 import org.business.control.business.repository.EventRepository;
 import org.junit.Assert;
@@ -12,24 +12,22 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AjouterPrestationTest {
+public class AddTaskConfigurationTest {
 
     @Mock
     private EventRepository eventRepository;
 
     @Test
-    public void whenAjouterPrestationCommandThenAjouterPrestationEventPersisted() {
-	AjouterPrestationCommand command = new AjouterPrestationCommand("coupe");
+    public void whenAddTaskConfigurationCommandThenEventStored() {
+	AddTaskConfigurationCommand command = new AddTaskConfigurationCommand("coupe");
 	Assert.assertNotNull(command.getLibelle());
 	Assert.assertFalse(command.getLibelle().isEmpty());
 
-	ConfigurationPrestationAggregate configurationPrestationAggregate = new ConfigurationPrestationAggregate(
-		eventRepository);
-	configurationPrestationAggregate.apply(command);
+	TaskConfigurationAggregate taskConfigurationAggregate = new TaskConfigurationAggregate(eventRepository);
+	taskConfigurationAggregate.apply(command);
 
 	BusinessEvent businessEvent = new BusinessEvent(command);
 	Mockito.verify(eventRepository).store(Mockito.refEq(businessEvent, "dateTime"));
-
     }
 
 }
