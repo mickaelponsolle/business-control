@@ -33,5 +33,6 @@
 
     <modules>
         <module>business</module>
+        <module>infrastructure</module>
     </modules>
 </project>
