@@ -1,5 +1,6 @@
 package org.business.control.infrastructure.repository;
 
+import org.bson.Document;
 import org.business.control.business.command.configuration.task.AddTaskConfigurationCommand;
 import org.business.control.business.event.BusinessEvent;
 import org.junit.Assert;
@@ -26,5 +27,14 @@ public class EventRepositoryTest {
 
 	Long eventCounter = mongoClient.getDatabase("writeModel").getCollection("event").count();
 	Assert.assertEquals("The database should contain 1 event", Long.valueOf(1), eventCounter);
+
+	Document document = mongoClient.getDatabase("writeModel").getCollection("event").find().first();
+	Assert.assertTrue("The document should contain a dateTime field", document.get("dateTime") != null);
+	Assert.assertTrue("The document should contain a command field", document.get("command") != null);
+	Document commandDocument = (Document) document.get("command");
+	Assert.assertTrue("The command document should contain a title field", commandDocument.get("title") != null);
+	Assert.assertTrue("The command document should contain a title field",
+		commandDocument.get("title").equals("addTaskConfiguration"));
+
     }
 }

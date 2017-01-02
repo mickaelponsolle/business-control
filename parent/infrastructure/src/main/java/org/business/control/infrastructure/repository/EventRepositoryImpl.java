@@ -1,8 +1,9 @@
 package org.business.control.infrastructure.repository;
 
-import java.util.Arrays;
+import java.time.format.DateTimeFormatter;
 
 import org.bson.Document;
+import org.business.control.business.command.configuration.task.AddTaskConfigurationCommand;
 import org.business.control.business.event.BusinessEvent;
 import org.business.control.business.repository.EventRepository;
 
@@ -17,11 +18,18 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
     public void store(BusinessEvent event) {
-	// Document document = new Document().append("event", event);
-	Document document = new Document("name", "MongoDB").append("type", "database").append("count", 1)
-		.append("versions", Arrays.asList("v3.2", "v3.0", "v2.6"))
-		.append("info", new Document("x", 203).append("y", 102));
-	collection.insertOne(document);
 
+	Document commandDocument = null;
+	if (event.getCommand() != null && event.getCommand() instanceof AddTaskConfigurationCommand) {
+	    commandDocument = new Document().append("title",
+		    ((AddTaskConfigurationCommand) event.getCommand()).getLibelle());
+	}
+
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+	Document eventDocument = new Document().append("dateTime", event.getDateTime().format(formatter))
+		.append("command", commandDocument);
+
+	collection.insertOne(eventDocument);
     }
 }
