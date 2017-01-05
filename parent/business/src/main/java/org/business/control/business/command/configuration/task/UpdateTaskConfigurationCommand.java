@@ -15,7 +15,7 @@ public class UpdateTaskConfigurationCommand implements BusinessCommand {
 	return id;
     }
 
-    public String getLibelle() {
+    public String getTitle() {
 	return title;
     }
 }

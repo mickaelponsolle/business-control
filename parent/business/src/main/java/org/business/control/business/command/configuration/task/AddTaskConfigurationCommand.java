@@ -9,7 +9,7 @@ public class AddTaskConfigurationCommand implements BusinessCommand {
 	this.title = title;
     }
 
-    public String getLibelle() {
+    public String getTitle() {
 	return title;
     }
 }

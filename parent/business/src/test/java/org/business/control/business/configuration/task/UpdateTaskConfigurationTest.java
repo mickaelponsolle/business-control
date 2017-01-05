@@ -22,8 +22,8 @@ public class UpdateTaskConfigurationTest {
 	UpdateTaskConfigurationCommand command = new UpdateTaskConfigurationCommand(3L, "coupe");
 	Assert.assertNotNull(command.getId());
 	Assert.assertEquals(Long.valueOf(3), command.getId());
-	Assert.assertNotNull(command.getLibelle());
-	Assert.assertFalse(command.getLibelle().isEmpty());
+	Assert.assertNotNull(command.getTitle());
+	Assert.assertFalse(command.getTitle().isEmpty());
 
 	TaskConfigurationAggregate taskConfigurationAggregate = new TaskConfigurationAggregate(eventRepository);
 	taskConfigurationAggregate.apply(command);

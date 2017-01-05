@@ -22,7 +22,7 @@ public class EventRepositoryImpl implements EventRepository {
 	Document commandDocument = null;
 	if (event.getCommand() != null && event.getCommand() instanceof AddTaskConfigurationCommand) {
 	    commandDocument = new Document().append("title",
-		    ((AddTaskConfigurationCommand) event.getCommand()).getLibelle());
+		    ((AddTaskConfigurationCommand) event.getCommand()).getTitle());
 	}
 
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

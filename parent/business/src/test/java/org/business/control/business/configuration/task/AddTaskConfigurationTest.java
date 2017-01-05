@@ -20,8 +20,8 @@ public class AddTaskConfigurationTest {
     @Test
     public void whenAddTaskConfigurationCommandThenEventStored() {
 	AddTaskConfigurationCommand command = new AddTaskConfigurationCommand("coupe");
-	Assert.assertNotNull(command.getLibelle());
-	Assert.assertFalse(command.getLibelle().isEmpty());
+	Assert.assertNotNull(command.getTitle());
+	Assert.assertFalse(command.getTitle().isEmpty());
 
 	TaskConfigurationAggregate taskConfigurationAggregate = new TaskConfigurationAggregate(eventRepository);
 	taskConfigurationAggregate.apply(command);
