@@ -7,12 +7,12 @@ import org.business.control.business.repository.EventRepository;
 
 public class TaskConfigurationAggregate extends AbstractAggregate {
 
-    public TaskConfigurationAggregate(EventRepository eventRepository) {
-	super(eventRepository);
-    }
+	public TaskConfigurationAggregate(EventRepository eventRepository) {
+		super(eventRepository);
+	}
 
-    public void apply(BusinessCommand command) {
-	eventRepository.store(new BusinessEvent(command));
-    }
+	public void apply(BusinessCommand command) {
+		eventRepository.store(new BusinessEvent(command));
+	}
 
 }
