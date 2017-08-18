@@ -18,11 +18,6 @@ public class CommandBus {
     }
 
     public <R, C extends Command<R>> R dispatch(C command) {
-        for (Handler handler : handlersMap.values()) {
-            System.out.println(handler.getClass().toString());
-            System.out.println(handler.listenTo().toString());
-        }
         return (R) handlersMap.get(command.getClass()).handle(command);
-
     }
 }

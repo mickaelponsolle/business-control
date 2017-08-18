@@ -7,8 +7,6 @@ public class CreateTaskConfigurationHandler extends CommandHandler<Void, CreateT
     @Override
     public Void handle(CreateTaskConfigurationCommand command) {
         return null;
-        // TODO Auto-generated method stub
-
     }
 
     @Override

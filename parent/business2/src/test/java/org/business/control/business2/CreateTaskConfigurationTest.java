@@ -5,7 +5,6 @@ import java.util.Arrays;
 import org.business.control.business2.bus.CommandBus;
 import org.business.control.business2.command.CreateTaskConfigurationCommand;
 import org.business.control.business2.handler.CreateTaskConfigurationHandler;
-import org.business.control.business2.repository.TaskConfigurationRepository;
 import org.business.control.business2.utils.Money;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -26,7 +25,6 @@ public class CreateTaskConfigurationTest {
 
     @Test
     public void whenHandlerApplyCommandThenEventEmitted() {
-        TaskConfigurationRepository repository = new TaskConfigurationRepository();
         CreateTaskConfigurationHandler handler = new CreateTaskConfigurationHandler();
         handler.handle(new CreateTaskConfigurationCommand("coupe", Money.of(7)));
     }
