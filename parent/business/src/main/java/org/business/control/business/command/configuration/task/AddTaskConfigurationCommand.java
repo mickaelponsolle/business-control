@@ -6,10 +6,11 @@ public class AddTaskConfigurationCommand implements BusinessCommand {
     private final String title;
 
     public AddTaskConfigurationCommand(String title) {
-	this.title = title;
+        this.title = title;
     }
 
     public String getTitle() {
-	return title;
+        return title;
     }
+
 }

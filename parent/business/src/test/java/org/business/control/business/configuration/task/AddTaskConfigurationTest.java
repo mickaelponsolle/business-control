@@ -19,15 +19,15 @@ public class AddTaskConfigurationTest {
 
     @Test
     public void whenAddTaskConfigurationCommandThenEventStored() {
-	AddTaskConfigurationCommand command = new AddTaskConfigurationCommand("coupe");
-	Assert.assertNotNull(command.getTitle());
-	Assert.assertFalse(command.getTitle().isEmpty());
+        AddTaskConfigurationCommand command = new AddTaskConfigurationCommand("coupe");
+        Assert.assertNotNull(command.getTitle());
+        Assert.assertFalse(command.getTitle().isEmpty());
 
-	TaskConfigurationAggregate taskConfigurationAggregate = new TaskConfigurationAggregate(eventRepository);
-	taskConfigurationAggregate.apply(command);
+        TaskConfigurationAggregate taskConfigurationAggregate = new TaskConfigurationAggregate(eventRepository);
+        taskConfigurationAggregate.apply(command);
 
-	BusinessEvent businessEvent = new BusinessEvent(command);
-	Mockito.verify(eventRepository).store(Mockito.refEq(businessEvent, "dateTime"));
+        BusinessEvent businessEvent = new BusinessEvent(command);
+        Mockito.verify(eventRepository).store(Mockito.refEq(businessEvent, "dateTime"));
     }
 
 }
