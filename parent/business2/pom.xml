@@ -8,9 +8,9 @@
         <artifactId>parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>org.business.control.</groupId>
-    <artifactId>business2</artifactId>
-    <name>business2</name>
+    <groupId>org.business-control</groupId>
+    <artifactId>business</artifactId>
+    <name>business</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

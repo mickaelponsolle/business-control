@@ -48,9 +48,6 @@
     </build>
     <modules>
         <module>business</module>
-        <module>infrastructure</module>
-        <module>business2</module>
+        <module>infrastructure</module>       
     </modules>
-
-
 </project>
