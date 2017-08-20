@@ -4,6 +4,7 @@ import org.business.control.business.aggregate.TaskConfiguration;
 import org.business.control.business.command.CreateTaskConfigurationCommand;
 import org.business.control.business.event.Event;
 import org.business.control.business.event.store.EventStore;
+import org.business.control.business.utils.Pair;
 
 public class CreateTaskConfigurationCommandHandler extends CommandHandler<Void, CreateTaskConfigurationCommand> {
 
@@ -14,11 +15,9 @@ public class CreateTaskConfigurationCommandHandler extends CommandHandler<Void, 
     @Override
     public Void handle(CreateTaskConfigurationCommand command) {
 
-        TaskConfiguration taskConfiguration = TaskConfiguration.build(command.getTitle(), command.getPrice());
-
-        Event createTaskConfigurationEvent = new Event();
-        createTaskConfigurationEvent.aggregateType = taskConfiguration.getClass();
-        eventStore.store(createTaskConfigurationEvent);
+        TaskConfiguration taskConfiguration = new TaskConfiguration();
+        Pair<TaskConfiguration, Event> pair = taskConfiguration.build(command.getTitle(), command.getPrice());
+        eventStore.store(pair.getRight());
 
         return null;
     }
