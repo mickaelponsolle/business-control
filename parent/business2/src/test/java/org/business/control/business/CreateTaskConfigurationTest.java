@@ -100,9 +100,13 @@ public class CreateTaskConfigurationTest {
 
     @Test
     public void whenValidCommandSentToCommandBusThenEventIsStored() {
+        CreateTaskConfigurationCommand command = new CreateTaskConfigurationCommand("coupe", Money.of(7));
         EventStore eventStore = new InMemoryEventStore();
+
         CreateTaskConfigurationCommandHandler handler = new CreateTaskConfigurationCommandHandler(eventStore);
-        handler.handle(new CreateTaskConfigurationCommand("coupe", Money.of(7)));
+        CommandBus commandBus = new CommandBus(Arrays.asList(handler));
+        commandBus.dispatch(command);
+
         Assert.assertEquals(1, eventStore.size());
         Assert.assertEquals(1, eventStore.get(TaskConfiguration.class).size());
         Assert.assertEquals(0, eventStore.get(Void.class).size());
