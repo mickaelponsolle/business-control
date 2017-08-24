@@ -1,7 +1,9 @@
 package org.business.control.business.aggregate;
 
+import java.util.List;
 import java.util.UUID;
 
+import org.business.control.business.event.CatalogTaskOfferedEvent;
 import org.business.control.business.event.Event;
 import org.business.control.business.exception.aggregate.CatalogTaskException;
 import org.business.control.business.utils.Money;
@@ -49,5 +51,15 @@ public class CatalogTask extends Aggregate {
         if (exception != null) {
             throw exception;
         }
+    }
+
+    public void apply(List<Event> events) {
+        for (Event event : events) {
+            if (event.eventType.equals(CatalogTaskOfferedEvent.class.getName())) {
+
+            }
+
+        }
+
     }
 }

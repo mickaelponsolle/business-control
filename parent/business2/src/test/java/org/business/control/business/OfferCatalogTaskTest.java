@@ -1,10 +1,12 @@
 package org.business.control.business;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 import org.business.control.business.aggregate.CatalogTask;
 import org.business.control.business.bus.CommandBus;
 import org.business.control.business.command.OfferCatalogTaskCommand;
+import org.business.control.business.event.CatalogTaskOfferedEvent;
 import org.business.control.business.event.store.EventStore;
 import org.business.control.business.event.store.InMemoryEventStore;
 import org.business.control.business.exception.aggregate.CatalogTaskException;
@@ -110,5 +112,28 @@ public class OfferCatalogTaskTest {
         Assert.assertEquals(1, eventStore.size());
         Assert.assertEquals(1, eventStore.get(CatalogTask.class).size());
         Assert.assertEquals(0, eventStore.get(Void.class).size());
+    }
+
+    @Test
+    public void givenSomeEventsInEventStoreWhenReconstructionAskedThenReconstructionDone() {
+        CatalogTaskOfferedEvent catalogTask1Offered = new CatalogTaskOfferedEvent();
+        catalogTask1Offered.aggregateType = CatalogTask.class;
+        catalogTask1Offered.aggregateId = UUID.randomUUID();
+        catalogTask1Offered.title = "coupe";
+        catalogTask1Offered.price = Money.of(18);
+
+        CatalogTaskOfferedEvent catalogTask2Offered = new CatalogTaskOfferedEvent();
+        catalogTask2Offered.aggregateType = CatalogTask.class;
+        catalogTask2Offered.aggregateId = UUID.randomUUID();
+        catalogTask2Offered.title = "coupe/brushing";
+        catalogTask2Offered.price = Money.of(24);
+
+        EventStore eventStore = new InMemoryEventStore();
+        eventStore.store(catalogTask1Offered);
+        eventStore.store(catalogTask2Offered);
+
+        CatalogTask catalogTask = new CatalogTask();
+        catalogTask.apply(eventStore.get(CatalogTask.class, catalogTask1Offered.id));
+
     }
 }
