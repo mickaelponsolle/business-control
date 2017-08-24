@@ -10,4 +10,6 @@ public interface EventStore {
     public List<Event> getAll();
 
     public void store(Event event);
+
+    public List<Event> get(Class<?> clazz);
 }

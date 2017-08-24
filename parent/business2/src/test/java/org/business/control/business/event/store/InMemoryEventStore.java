@@ -2,6 +2,7 @@ package org.business.control.business.event.store;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.business.control.business.event.Event;
 
@@ -22,6 +23,11 @@ public class InMemoryEventStore implements EventStore {
     @Override
     public void store(Event event) {
         events.add(event);
+    }
+
+    @Override
+    public List<Event> get(Class<?> clazz) {
+        return events.stream().filter(event -> event.aggregateType.equals(clazz)).collect(Collectors.toList());
     }
 
 }

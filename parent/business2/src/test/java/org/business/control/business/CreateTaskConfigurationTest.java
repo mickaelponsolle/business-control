@@ -104,6 +104,7 @@ public class CreateTaskConfigurationTest {
         CreateTaskConfigurationCommandHandler handler = new CreateTaskConfigurationCommandHandler(eventStore);
         handler.handle(new CreateTaskConfigurationCommand("coupe", Money.of(7)));
         Assert.assertEquals(1, eventStore.size());
-        Assert.assertTrue(eventStore.getAll().get(0).aggregateType.equals(TaskConfiguration.class));
+        Assert.assertEquals(1, eventStore.get(TaskConfiguration.class).size());
+        Assert.assertEquals(0, eventStore.get(Void.class).size());
     }
 }
