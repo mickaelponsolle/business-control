@@ -2,12 +2,12 @@ package org.business.control.business.command;
 
 import org.business.control.business.utils.Money;
 
-public class CreateTaskConfigurationCommand implements Command<Void> {
+public class OfferCatalogTaskCommand implements Command<Void> {
 
     private final String title;
     private final Money price;
 
-    public CreateTaskConfigurationCommand(String title, Money price) {
+    public OfferCatalogTaskCommand(String title, Money price) {
         this.title = title;
         this.price = price;
     }

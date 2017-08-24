@@ -2,7 +2,7 @@ package org.business.control.business.exception.aggregate;
 
 import org.business.control.business.exception.command.CommandBusException;
 
-public class TaskConfigurationException extends RuntimeException implements CommandBusException {
+public class CatalogTaskException extends RuntimeException implements CommandBusException {
     private static final long serialVersionUID = 6905203632465055284L;
 
     private boolean nullTitle;
