@@ -116,24 +116,22 @@ public class OfferCatalogTaskTest {
 
     @Test
     public void givenSomeEventsInEventStoreWhenReconstructionAskedThenReconstructionDone() {
-        CatalogTaskOfferedEvent catalogTask1Offered = new CatalogTaskOfferedEvent();
-        catalogTask1Offered.aggregateType = CatalogTask.class;
-        catalogTask1Offered.aggregateId = UUID.randomUUID();
-        catalogTask1Offered.title = "coupe";
-        catalogTask1Offered.price = Money.of(18);
+        CatalogTaskOfferedEvent catalogTask1Offered = new CatalogTaskOfferedEvent(UUID.randomUUID(), "coupe",
+                Money.of(18));
 
-        CatalogTaskOfferedEvent catalogTask2Offered = new CatalogTaskOfferedEvent();
-        catalogTask2Offered.aggregateType = CatalogTask.class;
-        catalogTask2Offered.aggregateId = UUID.randomUUID();
-        catalogTask2Offered.title = "coupe/brushing";
-        catalogTask2Offered.price = Money.of(24);
+        CatalogTaskOfferedEvent catalogTask2Offered = new CatalogTaskOfferedEvent(UUID.randomUUID(), "coupe/brushing",
+                Money.of(24));
 
         EventStore eventStore = new InMemoryEventStore();
         eventStore.store(catalogTask1Offered);
         eventStore.store(catalogTask2Offered);
 
         CatalogTask catalogTask = new CatalogTask();
-        catalogTask.apply(eventStore.get(CatalogTask.class, catalogTask1Offered.id));
+        CatalogTask catalogTaskRebuilded = catalogTask
+                .apply(eventStore.get(CatalogTask.class, catalogTask1Offered.getAggregateId()));
+        Assert.assertEquals(catalogTask1Offered.getTitle(), catalogTaskRebuilded.getTitle());
+        Assert.assertEquals(catalogTask1Offered.getPrice(), catalogTaskRebuilded.getPrice());
+        Assert.assertEquals(catalogTask1Offered.getAggregateId(), catalogTaskRebuilded.getId());
 
     }
 }

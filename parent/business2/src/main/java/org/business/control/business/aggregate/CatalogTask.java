@@ -10,23 +10,30 @@ import org.business.control.business.utils.Money;
 import org.business.control.business.utils.Pair;
 
 public class CatalogTask extends Aggregate {
+
     private UUID id;
 
     private String title;
     private Money price;
 
-    public Pair<CatalogTask, Event> build(String title, Money price) {
-        CatalogTask catalogTask = new CatalogTask();
-        catalogTask.id = UUID.randomUUID();
-        catalogTask.title = title;
-        catalogTask.price = price;
+    public CatalogTask() {
 
+    }
+
+    public CatalogTask(CatalogTask other) {
+        this.id = other.getId();
+        this.title = other.getTitle();
+        this.price = other.getPrice();
+    }
+
+    public Pair<CatalogTask, Event> build(String title, Money price) {
         checkCommandValidity(title, price);
 
-        Event offerCatalogTaskEvent = new Event();
-        offerCatalogTaskEvent.aggregateType = catalogTask.getClass();
+        CatalogTaskOfferedEvent catalogTaskOfferedEvent = new CatalogTaskOfferedEvent(UUID.randomUUID(), title, price);
 
-        return new Pair<CatalogTask, Event>(catalogTask, offerCatalogTaskEvent);
+        CatalogTask catalogTask = this.applyCatalogTaskOfferedEvent(this, catalogTaskOfferedEvent);
+
+        return new Pair<CatalogTask, Event>(catalogTask, catalogTaskOfferedEvent);
     }
 
     private void checkCommandValidity(String title, Money price) {
@@ -53,13 +60,36 @@ public class CatalogTask extends Aggregate {
         }
     }
 
-    public void apply(List<Event> events) {
+    public CatalogTask apply(List<Event> events) {
+        CatalogTask catalogTask = new CatalogTask(this);
         for (Event event : events) {
-            if (event.eventType.equals(CatalogTaskOfferedEvent.class.getName())) {
+            if (event.getEventType().equals(CatalogTaskOfferedEvent.class)) {
+                CatalogTaskOfferedEvent catalogTaskOfferedEvent = (CatalogTaskOfferedEvent) event;
 
+                catalogTask = applyCatalogTaskOfferedEvent(catalogTask, catalogTaskOfferedEvent);
             }
-
         }
+        return catalogTask;
+    }
 
+    private CatalogTask applyCatalogTaskOfferedEvent(CatalogTask catalogTask,
+            CatalogTaskOfferedEvent catalogTaskOfferedEvent) {
+        CatalogTask catalogTaskCopy = new CatalogTask(catalogTask);
+        catalogTaskCopy.id = catalogTaskOfferedEvent.getAggregateId();
+        catalogTaskCopy.title = catalogTaskOfferedEvent.getTitle();
+        catalogTaskCopy.price = catalogTaskOfferedEvent.getPrice();
+        return catalogTaskCopy;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Money getPrice() {
+        return price;
     }
 }

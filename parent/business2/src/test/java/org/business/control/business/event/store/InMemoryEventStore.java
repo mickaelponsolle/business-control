@@ -29,12 +29,13 @@ public class InMemoryEventStore implements EventStore {
 
     @Override
     public List<Event> get(Class<?> clazz) {
-        return events.stream().filter(event -> event.aggregateType.equals(clazz)).collect(Collectors.toList());
+        return events.stream().filter(event -> event.getAggregateType().equals(clazz)).collect(Collectors.toList());
     }
 
     @Override
     public List<Event> get(Class<CatalogTask> clazz, UUID id) {
-        return events.stream().filter(event -> event.aggregateType.equals(clazz) && event.aggregateId.equals(id))
+        return events.stream()
+                .filter(event -> event.getAggregateType().equals(clazz) && event.getAggregateId().equals(id))
                 .collect(Collectors.toList());
     }
 }

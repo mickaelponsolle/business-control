@@ -4,9 +4,25 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Event {
-    public LocalDateTime eventDateTime = LocalDateTime.now();
-    public Class<?> aggregateType;
-    public String eventType;
-    public UUID aggregateId;
+    protected LocalDateTime eventDateTime = LocalDateTime.now();
+    protected Class<?> aggregateType;
+    protected Class<?> eventType;
+    protected UUID aggregateId;
+
+    public LocalDateTime getEventDateTime() {
+        return eventDateTime;
+    }
+
+    public Class<?> getAggregateType() {
+        return aggregateType;
+    }
+
+    public Class<?> getEventType() {
+        return eventType;
+    }
+
+    public UUID getAggregateId() {
+        return aggregateId;
+    }
 
 }
